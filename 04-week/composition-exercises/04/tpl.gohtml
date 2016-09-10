@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+
+{{range .}}
+--- ENTERING NEW MENU - looping over []menu ---
+    {{range .}}
+--- ENTERING NEW MEAL TIME - looping over []meal ---
+        {{.Time}}<br>
+        {{range .Items}}
+--- ENTERING NEW MEAL ITEM - looping over []item ---
+            {{.Name}}<br>
+            {{.Price}}<br>
+            {{.Origin}}<br>
+        {{end}}
+    {{end}}
+{{end}}
+
+</body>
+</html>

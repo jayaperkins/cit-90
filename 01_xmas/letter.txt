@@ -1,0 +1,16 @@
+{{range .}}
+************************************************************************
+
+Happy Holidays {{.}}!
+
+We wanted to wish you a Merry Christmas from the bottom of our hearts!
+
+We hope you and your family are doing well.
+
+Please don't hesitate to call us if you need any of our services!
+
+Sincerely,
+
+The Homestead Company
+
+{{end}}
