@@ -1,9 +1,9 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
 	"net"
 )
@@ -25,17 +25,13 @@ func main() {
 
 		io.WriteString(conn, "You are connected!")
 
-		scanner := bufio.NewScanner(conn)
-		for scanner.Scan() {
-			ln := scanner.Text()
-			fmt.Println(ln)
-			if ln == "" {
-				break
-			}
+		bs, err := ioutil.ReadAll(conn)
+		if err != nil {
+			log.Fatalln(err)
 		}
 
-		io.WriteString(conn, "I see you connected!")
-
+		fmt.Println(string(bs))
+		io.WriteString(conn, "I see that you connected")
 		conn.Close()
 
 	}

@@ -1,19 +1,28 @@
 package main
 
 import (
-	"fmt"
+	"io"
+	"log"
+	"net"
 )
 
 func main() {
 
-	s := []int{43, 6, 27}
-	fmt.Println(s)
-
-	for i := range s {
-		fmt.Println(i)
+	ln, err := net.Listen("tcp", ":8080")
+	if err != nil {
+		log.Fatalln(err)
 	}
 
-	for i, v := range s {
-		fmt.Println(i, v)
+	defer ln.Close()
+
+	for {
+		conn, err := ln.Accept()
+		if err != nil {
+			log.Fatalln(err)
+		}
+
+		io.WriteString(conn, "You are connected!")
+
 	}
+
 }

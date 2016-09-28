@@ -1,8 +1,6 @@
 package main
 
 import (
-	"bufio"
-	"fmt"
 	"io"
 	"log"
 	"net"
@@ -24,17 +22,6 @@ func main() {
 		}
 
 		io.WriteString(conn, "You are connected!")
-
-		scanner := bufio.NewScanner(conn)
-		for scanner.Scan() {
-			ln := scanner.Text()
-			fmt.Println(ln)
-			if ln == "" {
-				break
-			}
-		}
-
-		io.WriteString(conn, "I see you connected!")
 
 		conn.Close()
 

@@ -34,7 +34,7 @@ func main() {
 			}
 		}
 
-		io.WriteString(conn, "I see you connected!")
+		io.WriteString(conn, "hello")
 
 		conn.Close()
 

@@ -1,16 +1,43 @@
 package main
 
-import "fmt"
+import (
+	"io"
+	"log"
+	"net"
+	"io/ioutil"
+	"fmt"
+)
 
 func main() {
-	m := map[string]int{"Jeremy": 20, "Zachary": 27, "Norm": 48}
-	fmt.Println(m)
 
-	for k := range m {
-		fmt.Println(k)
+	ln, err := net.Listen("tcp", ":8080")
+	if err != nil {
+		log.Fatalln(err)
 	}
 
-	for k, v := range m {
-		fmt.Println(k, v)
+	defer ln.Close()
+
+	for {
+		conn, err := ln.Accept()
+		if err != nil {
+			log.Fatalln(err)
+		}
+
+		io.WriteString(conn, "You are connected!")
+
+		bs, err := ioutil.ReadAll(conn)
+		if err != nil {
+			log.Fatalln(err)
+		}
+
+		fmt.Println(string(bs))
+
+		//This line is never written because ioutil is constantly reading from the connection.
+		// You never break out of the loop and reach io.WriteString
+		io.WriteString(conn, "Hello")
+		conn.Close()
+
 	}
+
 }
+

@@ -1,34 +1,53 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"io"
+	"log"
+	"net"
 )
 
-type person struct {
-	fName   string
-	lName   string
-	favFood []string
-}
-
-func (p person) walk() string {
-	return fmt.Sprintln(p.fName, "is walking.")
-}
-
 func main() {
-	p1 := person{
-		"Jeremy",
-		"Perkins",
-		[]string{"watermelon", "hamburger", "hotdog"},
+
+	ln, err := net.Listen("tcp", ":8080")
+	if err != nil {
+		log.Fatalln(err)
 	}
 
-	fmt.Println(p1)
-	fmt.Println(p1.fName)
-	fmt.Println(p1.favFood)
+	defer ln.Close()
 
-	for i, v := range p1.favFood {
-		fmt.Println(i, v)
+	for {
+		conn, err := ln.Accept()
+		if err != nil {
+			log.Fatalln(err)
+		}
+
+		io.WriteString(conn, "You are connected!")
+
+		go serve(conn)
+
 	}
 
-	s := p1.walk()
-	fmt.Println(s)
 }
+
+func serve(c net.Conn) {
+	defer c.Close()
+	scanner := bufio.NewScanner(c)
+	for scanner.Scan() {
+		ln := scanner.Text()
+		fmt.Println(ln)
+		if ln == "" {
+			fmt.Println("End of HTTP request headers")
+			break
+		}
+	}
+
+	body := "Response body payload"
+	io.WriteString(c, "HTTP/1.1 200 OK\r\n")
+	fmt.Fprintf(c, "Content-Length: %d\r\n", len(body))
+	fmt.Fprint(c, "Content-Type: text/plain\r\n")
+	io.WriteString(c, "\r\n")
+	io.WriteString(c, body)
+}
+

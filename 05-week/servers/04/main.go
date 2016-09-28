@@ -25,19 +25,23 @@ func main() {
 
 		io.WriteString(conn, "You are connected!")
 
-		scanner := bufio.NewScanner(conn)
-		for scanner.Scan() {
-			ln := scanner.Text()
-			fmt.Println(ln)
-			if ln == "" {
-				break
-			}
-		}
-
-		io.WriteString(conn, "I see you connected!")
+		serve(conn)
 
 		conn.Close()
 
 	}
 
+}
+
+func serve(c net.Conn) {
+	scanner := bufio.NewScanner(c)
+	for scanner.Scan() {
+		ln := scanner.Text()
+		fmt.Println(ln)
+		if ln == "" {
+			break
+		}
+	}
+
+	io.WriteString(c, " hello")
 }
