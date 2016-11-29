@@ -27,7 +27,7 @@ func main() {
 	http.ListenAndServe(":8080", nil)
 }
 
-func idx(w http.ResponseWriter, req *http.Request) {
+func idx(w http.ResponseWriter, _ *http.Request) {
 
 	pd := pageData{
 		Title: "Index Page",
@@ -42,7 +42,7 @@ func idx(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
-func abot(w http.ResponseWriter, req *http.Request) {
+func abot(w http.ResponseWriter, _ *http.Request) {
 
 	pd := pageData{
 		Title: "About Page",
@@ -56,7 +56,7 @@ func abot(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
-func cntct(w http.ResponseWriter, req *http.Request) {
+func cntct(w http.ResponseWriter, _ *http.Request) {
 
 	pd := pageData{
 		Title: "Contact Page",
